@@ -591,6 +591,35 @@
                 stagger: 0.2,
                 ease: 'power2.out'
             });
+// Your email address (replace with your actual email if different)
+const email = "rashedhumaid@proton.me";
+
+const emailContainer = document.getElementById('email-container');
+
+// Function to mask email for privacy
+function maskEmail(email) {
+  const [name, domain] = email.split('@');
+  const maskedName = name[0] + '*'.repeat(name.length - 2) + name.slice(-1);
+  const [domainName, domainExt] = domain.split('.');
+  const maskedDomain = domainName[0] + '*'.repeat(domainName.length - 2) + domainName.slice(-1);
+  return maskedName + '@' + maskedDomain + '.' + domainExt;
+}
+
+// Show masked email initially
+emailContainer.textContent = maskEmail(email);
+
+// Toggle full/masked email on click
+let isMasked = true;
+emailContainer.addEventListener('click', () => {
+  if (isMasked) {
+    emailContainer.textContent = email;
+    emailContainer.style.color = '#000';  // Change color to black when revealed
+  } else {
+    emailContainer.textContent = maskEmail(email);
+    emailContainer.style.color = '#0077cc';  // Original color when masked
+  }
+  isMasked = !isMasked;
+});
 
             // Vision page animations
             gsap.to('.vision-title', {
