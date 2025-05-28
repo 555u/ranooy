@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Story with Miss Rania</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #6a0dad;
+      --accent-color: #009688;
+      --background-color: #f0f0f5;
+      --text-color: #333;
+      --purple-light: rgba(106, 13, 173, 0.1);
+      --shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--background-color) 0%, #e8e8f0 100%);
+      color: var(--text-color);
+      line-height: 1.8;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Loading animation */
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: fadeOut 1s ease-out 2s forwards;
+    }
+
+    .loader-content {
+      text-align: center;
+      color: white;
+    }
+
+    .loader-spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    /* Floating particles background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      animation: float 15s infinite linear;
+      opacity: 0.3;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.3; }
+      100% { transform: translateY(-100px) translateX(100px) rotate(360deg); opacity: 0; }
+    }
+
+    header {
+      background: url('https://upload.wikimedia.org/wikipedia/commons/4/4f/Al-Aqsa_Mosque_Panorama.jpg') no-repeat center center/cover;
+      height: 100vh;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(106, 13, 173, 0.8) 0%, rgba(0, 150, 136, 0.6) 100%);
+      animation: gradientShift 8s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background: linear-gradient(135deg, rgba(106, 13, 173, 0.8) 0%, rgba(0, 150, 136, 0.6) 100%); }
+      50% { background: linear-gradient(135deg, rgba(0, 150, 136, 0.8) 0%, rgba(106, 13, 173, 0.6) 100%); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      animation: slideInFromBottom 1.5s ease-out 2s both;
+    }
+
+    header h1 {
+      font-family: 'Amiri', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      animation: textGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes textGlow {
+      0%, 100% { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.3); }
+      50% { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 40px rgba(255,255,255,0.6); }
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      cursor: pointer;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    @keyframes slideInFromBottom {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      background: rgba(106, 13, 173, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
+      animation: slideInFromTop 1s ease-out 2.5s both;
+    }
+
+    @keyframes slideInFromTop {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    nav a:hover::before {
+      left: 100%;
+    }
+
+    nav a:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .main-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease-out;
+    }
+
+    section.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section:nth-child(even) {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      margin: 2rem auto;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      font-family: 'Amiri', serif;
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      animation: expandLine 1s ease-out 0.5s forwards;
+    }
+
+    @keyframes expandLine {
+      to { width: 100%; }
+    }
+
+    .koala-container {
+      float: right;
+      margin: 0 0 1rem 2rem;
+      position: relative;
+    }
+
+    .koala-img {
+      width: 250px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      filter: brightness(1.1) saturate(1.2);
+    }
+
+    .koala-img:hover {
+      transform: scale(1.05) rotate(2deg);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      text-align: justify;
+      animation: fadeInText 0.8s ease-out;
+    }
+
+    @keyframes fadeInText {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Quote styling */
+    .quote {
+      background: var(--purple-light);
+      border-left: 4px solid var(--primary-color);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 15px 15px 0;
+      font-style: italic;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote::before {
+      content: '"';
+      font-size: 4rem;
+      color: var(--primary-color);
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      opacity: 0.3;
+    }
+
+    /* Interactive elements */
+    .heart-float {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      animation: heartFloat 3s ease-out forwards;
+    }
+
+    @keyframes heartFloat {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+    }
+
+    footer {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      color: white;
+      text-align: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.05) 10px,
+        rgba(255,255,255,0.05) 20px
+      );
+      animation: footerPattern 20s linear infinite;
+    }
+
+    @keyframes footerPattern {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .footer-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      z-index: 1000;
+      transition: width 0.3s ease;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      header h1 { font-size: 2.5rem; }
+      nav { flex-direction: column; gap: 0.5rem; }
+      .koala-container { float: none; margin: 0 auto 2rem; text-align: center; }
+      .koala-img { width: 200px; }
+      section { padding: 2rem 1rem; }
+      h2 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading screen -->
+  <div class="loader">
+    <div class="loader-content">
+      <div class="loader-spinner"></div>
+      <p>Loading tribute to Miss Rania...</p>
+    </div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-bar"></div>
+
+  <!-- Floating particles -->
+  <div class="particles"></div>
+
+  <header>
+    <div class="hero-content">
+      <h1>My Experience with Miss Rania</h1>
+      <p class="hero-subtitle">A tribute to an extraordinary teacher who changed my life</p>
+    </div>
+    <div class="scroll-indicator" onclick="smoothScroll('#page1')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+        <path d="M12 16l-6-6h12l-6 6z"/>
+      </svg>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#page1" onclick="smoothScroll('#page1')">The Beginning</a>
+    <a href="#page2" onclick="smoothScroll('#page2')">Life Lessons</a>
+    <a href="#page3" onclick="smoothScroll('#page3')">Lasting Impact</a>
+  </nav>
+
+  <div class="main-content">
+    <section id="page1">
+      <h2>A Memorable Beginning</h2>
+      <div class="koala-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Koala_climbing_tree.jpg" alt="Koala" class="koala-img">
+      </div>
+      <p>
+        I first met Miss Rania during one of the most difficult academic years of my life. Like the resilience of Al-Quds, she stood tall, graceful, and inspiring. She believed in me when I didn't believe in myself. Her voice was calm and powerful, like the whispers of history in the stones of Palestine.
+      </p>
+      <p>
+        Her favorite color was purple, and she always wore it with pride — it became a symbol of her strength and elegance. She reminded me of a koala: gentle on the outside, but with sharp instincts and a strong sense of care.
+      </p>
+    </section>
+
+    <section id="page2">
+      <h2>Lessons Beyond the Classroom</h2>
+      <div class="quote">
+        To live with purpose is to walk the streets of Jerusalem in your heart every day.
+      </div>
+      <p>
+        Miss Rania didn't just teach lessons from the textbook — she taught us life. Her connection to Al-Quds inspired me to learn more about my culture, and her encouragement helped me grow beyond my limits.
+      </p>
+      <p>
+        The classroom walls were colorful — just like her spirit. They felt like a safe haven, a place where I was allowed to dream, make mistakes, and start again. Like a koala resting high up in the trees, we were nurtured in peace.
+      </p>
+    </section>
+
+    <section id="page3">
+      <h2>A Lasting Impact</h2>
+      <p>
+        Now that I look back, I see that Miss Rania left more than just academic knowledge behind — she left a legacy. Her wisdom stays with me, wrapped in purple thoughts, koala hugs, and the eternal beauty of Al-Quds.
+      </p>
+      <p>
+        Thank you, Miss Rania. You've given me more than I can say. Like the Dome of the Rock glows with gold under the sky, your kindness and teachings will always shine in my memory.
+      </p>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>Made with 💜 in tribute to Miss Rania — inspired by Palestine, koalas, and purple dreams.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Create floating particles
+    function createParticles() {
+      const particles = document.querySelector('.particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        particles.appendChild(particle);
+      }
+    }
+
+    // Smooth scroll function
+    function smoothScroll(target) {
+      document.querySelector(target).scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+
+    // Scroll progress bar
+    function updateProgressBar() {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.querySelector('.progress-bar').style.width = scrolled + '%';
+    }
+
+    // Animate sections on scroll
+    function animateOnScroll() {
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          section.classList.add('animate');
+        }
+      });
+    }
+
+    // Heart animation on click
+    function createHeart(e) {
+      if (e.target.tagName === 'P' || e.target.tagName === 'H2') {
+        const heart = document.createElement('div');
+        heart.className = 'heart-float';
+        heart.innerHTML = '💜';
+        heart.style.left = e.clientX + 'px';
+        heart.style.top = e.clientY + 'px';
+        document.body.appendChild(heart);
+        
+        setTimeout(() => {
+          heart.remove();
+        }, 3000);
+      }
+    }
+
+    // Initialize everything
+    window.addEventListener('load', () => {
+      createParticles();
+      animateOnScroll();
+    });
+
+    window.addEventListener('scroll', () => {
+      updateProgressBar();
+      animateOnScroll();
+    });
+
+    document.addEventListener('click', createHeart);
+
+    // Add some interactive Easter eggs
+    let clickCount = 0;
+    document.querySelector('header h1').addEventListener('click', () => {
+      clickCount++;
+      if (clickCount === 5) {
+        alert('Miss Rania would be proud of your curiosity! 💜');
+        clickCount = 0;
+      }
+    });
+  </script>
+</body>
+</html>
